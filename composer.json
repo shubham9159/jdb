@@ -1,0 +1,7 @@
+{
+  "name": "webenfold/jdb",
+  "description": "JSON based noSQL Database",
+  "require": {
+      "php": "^7.2"
+  }
+}
