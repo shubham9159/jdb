@@ -1,7 +1,14 @@
 {
   "name": "webenfold/jdb",
   "description": "JSON based noSQL Database",
-  "require": {
-      "php": "^7.2"
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["database", "nosql"],
+  "minimum-stability": "dev",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "JDB\\": "./dist"
+    }
   }
 }
