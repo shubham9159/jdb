@@ -9,7 +9,7 @@
  */
 
 /** If you are not using composer - than comment this out */
-namespace JDB;
+// namespace JDB;
 
 
 require_once 'base.php';
