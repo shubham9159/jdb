@@ -1,6 +1,9 @@
 # JDB
 JSON DB is a JSON based noSQL Database for PHP applications.
 
+### Version - Genesis build 5
+1. Demo Template Removed - potential security vulnerabilities fixed
+
 ### Version - Genesis build 4
 1. Example pages created along with styling
 
