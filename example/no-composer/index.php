@@ -38,50 +38,117 @@ if($jdb->table_exits($table_name)) $db_table = $jdb->get_table($table_name);
 else $db_table = null; ?>
 
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-  </head>
-  <body>
+<html class="no-js">
 
-    <h1>JDB Examples</h1>
+  <!-- Head -->
+  <?php include __DIR__.'/templates/head.php'; ?>
+  
+  <body id="page-top">
 
-    <hr />
+    <!-- Head -->
+    <?php include __DIR__.'/templates/header.php'; ?>
 
-    <h2>Current DB</h2>
+    <!-- Example content Section -->
+    <section class="mb-0 bg-light" id="example-content">
+      <div class="container">
+        <div class="row">
 
-    <?php
+          <!-- Sidebar -->
+          <div class="col-lg-3 col-md-4 col-12">
+            <h3>Example Select</h3>
+            <div class="link-list">
+              <a href="">JDB Row Add Data</a>
+            </div>
+          </div>
 
-    if(empty($db_table)): ?>
+          <!-- Content -->
+          <div class="col-lg-9 col-md-8 col-12">
 
-    <p>No data in db</p>
+            <h3>Explanations</h3>
+            <p>This is code explanation</p>
 
-    <?php else: ?>
-    <table>
-    
-      <?php foreach($db_table as $row_index => $row_data): ?>
-      <tr>
-        <td><?php echo $row_data['name'] ?></td>
-        <td><?php echo $row_data['email'] ?></td>
-        <td><?php echo $row_data['phone'] ?></td>
-        <td><?php echo $row_data['address'] ?></td>
-        <td><?php echo $row_data['city'] ?></td>
-        <td><?php echo $row_data['state'] ?></td>
-        <td><?php echo $row_data['zip'] ?></td>
-        <td><?php echo $row_data['country'] ?></td>
-      </tr>
-      <?php endforeach; ?>
+            <h3 class="mt-5">Code</h3>
+            <p>This code illustrates - how to add data into table row.</p>
+            <?php include __DIR__.'/codes/add-row-code.php'; ?>
+            
 
-    </table>
-    <?php endif; ?>
+            <h3 class="mt-5">DB Content</h3>
+            <h4 class="mt-2">Latest Records Fetched From DB</h4>
+
+            <?php if(empty($db_table)): ?>
+            <p>No data in db</p>
+
+            <?php else: ?>
+            <table>
+              <?php foreach($db_table as $row_index => $row_data): ?>
+              <tr>
+                <td><?php echo $row_data['name'] ?></td>
+                <td><?php echo $row_data['email'] ?></td>
+                <td><?php echo $row_data['phone'] ?></td>
+                <td><?php echo $row_data['address'] ?></td>
+                <td><?php echo $row_data['city'] ?></td>
+                <td><?php echo $row_data['state'] ?></td>
+                <td><?php echo $row_data['zip'] ?></td>
+                <td><?php echo $row_data['country'] ?></td>
+              </tr>
+              <?php endforeach; ?>
+
+            </table>
+            <?php endif; ?>
+          </div>
+          <!-- Content ENDS -->
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-5">JDB Add Row Form</h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+            <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+            <form id="form" method="post">
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Name</label>
+                  <input class="form-control" id="name" type="text" name="name" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Email Address</label>
+                  <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Phone Number</label>
+                  <input class="form-control" id="phone" type="tel" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Message</label>
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <br>
+              <div id="success"></div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <form method="post">
       <input type="text" name="name" required/>
@@ -94,6 +161,8 @@ else $db_table = null; ?>
       <input type="text" name="country"/>
       <button type="submit">SUBMIT</button>
     </form>
+
+    <?php include __DIR__.'/templates/footer.php'; ?>
 
   </body>
 </html>
