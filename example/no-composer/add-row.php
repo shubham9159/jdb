@@ -55,7 +55,7 @@ $db_table = $jdb->get_table($table_name); ?>
         <div class="col-lg-9 col-md-8 col-12">
 
           <h3>Explanations</h3>
-          <p>This is code explanation</p>
+          <p>This code is the explanation for adding row</p>
 
           <h3 class="mt-5">Code</h3>
           <p>This code illustrates - how to add data into table row.</p>
@@ -129,7 +129,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>Address</label>
                 <input class="form-control" name="address" id="name" type="text" placeholder="Address"
-                  required="required" data-validation-required-message="Please enter your name.">
+                  required="required" data-validation-required-message="Please enter your Address.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -137,7 +137,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>City</label>
                 <input class="form-control" name="city" id="name" type="text" placeholder="City" required="required"
-                  data-validation-required-message="Please enter your name.">
+                  data-validation-required-message="Please enter your City.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -145,7 +145,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>State</label>
                 <input class="form-control" name="state" id="name" type="text" placeholder="State" required="required"
-                  data-validation-required-message="Please enter your name.">
+                  data-validation-required-message="Please enter your State.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -153,7 +153,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>Zip</label>
                 <input class="form-control" name="zip" id="name" type="text" placeholder="Zip" required="required"
-                  data-validation-required-message="Please enter your name.">
+                  data-validation-required-message="Please enter your Zip.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -161,7 +161,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>Country</label>
                 <input class="form-control" name="country" id="name" type="text" placeholder="Country"
-                  required="required" data-validation-required-message="Please enter your name.">
+                  required="required" data-validation-required-message="Please enter your Country.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>

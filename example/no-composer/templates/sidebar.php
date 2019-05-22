@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-md-4 col-12">
-  <h3>Example Select</h3>
+  <h3>Select Example</h3>
   <div class="link-list">
     <a href="add-db.php">Add DB</a>
     <a href="delete-db.php">Delete DB</a>

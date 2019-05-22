@@ -25,3 +25,30 @@ pre {
     display: block;
   }
 }
+
+.icon-link{
+  text-align: left;
+
+  >a{
+    display: inline-block;
+    line-height: 50px;
+    height: 50px;
+
+    >img{
+      float: left;
+      height: 100%;
+      filter: brightness(100);
+      margin-right: 10px;
+    }
+    >span{
+      float: left;
+      line-height: 50px;
+      color: white;
+    }
+  }
+}
+
+.text-align{
+  text-align: justify;
+  margin-right: 10px;
+}

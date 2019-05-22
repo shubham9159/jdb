@@ -44,7 +44,7 @@ $db_table = $jdb->get_table($table_name); ?>
         <div class="col-lg-9 col-md-8 col-12">
 
           <h3>Explanations</h3>
-          <p>This is code explanation</p>
+          <p>This code is the explanation for updating column</p>
 
           <h3 class="mt-5">Code</h3>
           <p>This code illustrates - how to add data into table row.</p>
@@ -94,7 +94,7 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-5 pb-2">
                 <label>Row Index</label>
                 <input class="form-control" name="row-index" id="name" type="text" placeholder="Row Index" required="required"
-                  data-validation-required-message="Please enter the name of DB you want to add.">
+                  data-validation-required-message="Please enter name of the row you want to update.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -102,14 +102,14 @@ $db_table = $jdb->get_table($table_name); ?>
               <div class="form-group floating-label-form-group controls mb-5 pb-2">
                 <label>Column Name</label>
                 <input class="form-control" name="column-name" id="name" type="text" placeholder="Column Name" required="required"
-                  data-validation-required-message="Please enter the name of DB you want to add.">
+                  data-validation-required-message="Please enter name of the column you want to update.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls mb-5 pb-2">
                 <label>Column Data</label>
-                <input class="form-control" name="column-data" id="name" type="text" placeholder="Column Data" required="required" data-validation-required-message="Please enter the name of DB you want to add.">
+                <input class="form-control" name="column-data" id="name" type="text" placeholder="Column Data" required="required" data-validation-required-message="Please enter the data you want to add.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>

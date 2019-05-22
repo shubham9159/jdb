@@ -37,11 +37,11 @@ $db_names = $jdb->get_db_names(); ?>
         <div class="col-lg-9 col-md-8 col-12">
 
           <h3>Explanations</h3>
-          <p>This is code explanation</p>
+          <p>This code is the explanation for adding new database</p>
 
           <h3 class="mt-5">Code</h3>
           <p>This code illustrates - how to add data into table row.</p>
-          <?php include __DIR__.'/codes/add-row-code.php'; ?>
+          <?php include __DIR__.'/codes/add-db-code.php'; ?>
 
 
           <h3 class="mt-5">DB Content</h3>
@@ -78,9 +78,9 @@ $db_names = $jdb->get_db_names(); ?>
           <form id="form" method="post">
             <div class="control-group">
               <div class="form-group floating-label-form-group controls mb-5 pb-2">
-                <label>Name</label>
-                <input class="form-control" name="db-name" id="name" type="text" placeholder="Name" required="required"
-                  data-validation-required-message="Please enter the name of DB you want to add.">
+                <label>DB Name</label>
+                <input class="form-control" name="db-name" id="name" type="text" placeholder="DB Name" required="required"
+                  data-validation-required-message="Please enter name of the DB you want to add.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
