@@ -143,6 +143,14 @@ $db_table = $jdb->get_table($table_name); ?>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                <label>State</label>
+                <input class="form-control" name="state" id="name" type="text" placeholder="State" required="required"
+                  data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2">
                 <label>Zip</label>
                 <input class="form-control" name="zip" id="name" type="text" placeholder="Zip" required="required"
                   data-validation-required-message="Please enter your name.">
