@@ -13,8 +13,14 @@ class cyz_jdb_base{
   /** Initialized Flag */
   private $initialized = false;
 
-  /** DB file location */
+  /** DB location */
   private $db_loc;
+
+  /** DB list array */
+  private $db_list;
+
+  /** DB files location */
+  private $db_dir;
 
   /** Name of the DB */
   function __construct($dir){
@@ -33,11 +39,65 @@ class cyz_jdb_base{
     $this->db_loc = $dir;
   }
 
+  protected function scan_db($path){
+    /** Create blank array */
+    $this->db_list = array();
+  
+    /** Scan nd get all files and folders */
+    $files_n_folders = array_diff(scandir($path), array('.', '..'));
+
+    /** Loop through files and folders */
+    foreach($files_n_folders as $folder){
+
+      /** If it is folder than push it to the array */
+      if(is_dir($path."/$folder")) array_push($this->db_list, $folder);
+    }
+  }
+
+  protected function delete_dir($dir){
+    if (is_dir($dir)) { 
+      $objects = scandir($dir); 
+      foreach ($objects as $object) { 
+        if ($object != "." && $object != "..") { 
+          if (is_dir($dir."/".$object))
+            $this->delete_dir($dir."/".$object);
+          else
+            unlink($dir."/".$object); 
+        } 
+      }
+      rmdir($dir); 
+    }
+  }
+
+  protected function scan_db_tables($path){
+    /** Create blank array */
+    $tables = array();
+  
+    /** Scan nd get all files and folders */
+    $files_n_folders = array_diff(scandir($path), array('.', '..'));
+
+    /** Loop through files and folders */
+    foreach($files_n_folders as $file){
+
+      /** If it is folder than push it to the array */
+      if(!is_dir($path."/$file")) {
+        $file = str_replace('.jdb', '', $file);
+        array_push($tables, $file);
+      }
+    }
+
+    return $tables;
+  }
+
   Protected function get_db_names(){
     /** Directory location variable is empty */
     if(empty($this->db_loc)) return false;
 
-    return 'to be updated';
+    /** Scan DB Folders */
+    $this->scan_db($this->db_loc);
+
+    /** Return Updated DB List */
+    return $this->db_list;
   }
 
   /** 
@@ -46,7 +106,7 @@ class cyz_jdb_base{
    * 
    * @param:
    *    -> DB Name
-   * 
+   *
    * @return:
    *    -> true: If DB Deleted
    *    -> false: If DB Deletion failed */
@@ -54,7 +114,11 @@ class cyz_jdb_base{
     /** Directory location variable is empty */
     if(empty($this->db_loc)) return false;
 
-    return 'to be updated';
+    /** define Database Folder Name */
+    $this->db_dir = $this->db_loc."/$db_name";
+
+    /** delete recursively */
+    $this->delete_dir($this->db_dir);
   }
 
   /** DB Initialize */
@@ -63,14 +127,14 @@ class cyz_jdb_base{
     if(empty($this->db_loc)) return false;
 
     /** define Database Folder Name */
-    $this->db_loc = $this->db_loc."/$name";
+    $this->db_dir = $this->db_loc."/$name";
 
     /** Create Directory if does not exists */
-    if(!is_dir($this->db_loc)) {
+    if(!is_dir($this->db_dir)) {
       /** Remove any file with directory name */     
-      if(file_exists($this->db_loc)) @unlink($this->db_loc);
+      if(file_exists($this->db_dir)) @unlink($this->db_dir);
 
-      if(mkdir($this->db_loc)) {
+      if(mkdir($this->db_dir)) {
         /** Set initialized flag to true */
         $this->initialized = true;
         return true;
@@ -79,7 +143,7 @@ class cyz_jdb_base{
     }
 
     /** Check if DB Directory exists and is writable */
-    else if(is_dir($this->db_loc) && is_writable($this->db_loc)){
+    else if(is_dir($this->db_dir) && is_writable($this->db_dir)){
       /** Set initialized flag to true */
       $this->initialized = true;
       return true;
@@ -87,6 +151,13 @@ class cyz_jdb_base{
     
     /** DB failed to initialize */
     return false;
+  }
+
+  protected function get_all_tables(){
+    /** Check if this function is safe to execute */
+    if(!$this->initialized) return false;
+
+    return $this->scan_db_tables($this->db_dir);
   }
 
   Protected function table_exits($table_name){
@@ -97,7 +168,7 @@ class cyz_jdb_base{
     if(!$this->initialized) return false;
 
     /** Check if table exists */
-    if(file_exists($this->db_loc."/$table_name.jdb")) return true;
+    if(file_exists($this->db_dir."/$table_name.jdb")) return true;
     else return false;
   }
 
@@ -116,7 +187,7 @@ class cyz_jdb_base{
     if(!$this->initialized) return false;
 
     /** Table Location With Full Table Name */
-    $table_file_loc = $this->db_loc."/$table_name.jdb";
+    $table_file_loc = $this->db_dir."/$table_name.jdb";
 
     if(file_exists($table_file_loc)){
       /** Return error is it is not writable */
@@ -162,8 +233,9 @@ class cyz_jdb_base{
     if(!$this->initialized) return false;
 
     /** Table Location With Full Table Name */
-    $table_file_loc = $this->db_loc."/$table_name.jdb";
+    $table_file_loc = $this->db_dir."/$table_name.jdb";
 
+    /** Check if table exists */
     if(!$this->table_exits($table_name)) return false;
 
     /** Open db in memory */
@@ -195,10 +267,10 @@ class cyz_jdb_base{
     if(!$this->initialized) return false;
 
     /** Table Location With Full Table Name */
-    $table_file_loc = $this->db_loc."/$table_name.jdb";
+    $table_file_loc = $this->db_dir."/$table_name.jdb";
 
 
-    if($this->db_exits()) {
+    if($this->table_exits($table_name)) {
       if(unlink($table_file_loc)) return true;
     }
     
@@ -209,7 +281,7 @@ class cyz_jdb_base{
   protected function update_data_set($table_name, $index, $data_set){
     
     /** Check if table exists */
-    if(!file_exists($this->db_loc."/$table_name")) {
+    if(!file_exists($this->db_dir."/$table_name")) {
       $this->update_table($table_name, $data = null);
     }
   }

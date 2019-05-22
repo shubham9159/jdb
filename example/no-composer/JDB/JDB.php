@@ -60,6 +60,28 @@ class CYZ_JDB extends cyz_jdb_base {
     return false;
   }
 
+  /**
+   * This function validates name
+   * 
+   * @param:
+   *    -> index value
+   * 
+   * @return:
+   *    -> Success: Validated index value
+   *    -> Failure: return false */
+  private function validate_name($name){
+    if(isset($name)){
+      $name = strtolower($name);
+
+      $name = preg_replace("/[^\w\-]/i", "", $name);
+      
+      return $name;
+    }
+
+    /** If index value is not integer */
+    return null;
+  }
+
   //////// NO FILE OPERATION
 
   /** Get All DB Names */
@@ -69,18 +91,51 @@ class CYZ_JDB extends cyz_jdb_base {
 
   /** DB Initialize */
   function db_init($name){
+    $name = $this->validate_name($name);
+
+    if(empty($name)) return false;
+
     return parent::db_init($name);
   }
 
   function delete_db($db_name){
+    $db_name = $this->validate_name($db_name);
+
+    if(empty($db_name)) return false;
+
     return parent::delete_db($db_name);
   }
 
+  // Table Name
+  function get_all_tables(){
+    return parent::get_all_tables();
+  }
+
   function table_exits($table_name){
+    $table_name = $this->validate_name($table_name);
+
+    if(empty($table_name)) return false;
+
     return parent::table_exits($table_name);
   }
 
+  function create_table($table_name){
+    $table_name = $this->validate_name($table_name);
+
+    if(empty($table_name)) return false;
+
+    /** Return true if table exists */
+    if(parent::table_exits($table_name)) return true;
+
+    /** Return result of update table */
+    return parent::update_table($table_name, array());
+  }
+
   function delete_table($table_name){
+    $table_name = $this->validate_name($table_name);
+
+    if(empty($table_name)) return false;
+
     return parent::delete_table($table_name);
   }
 
@@ -100,7 +155,26 @@ class CYZ_JDB extends cyz_jdb_base {
 
     $table_data = parent::read_table($table_name);
 
+    $columns = array();
+
     if(empty($table_data)) $table_data = array();
+    else{
+      foreach($table_data as $row_index => $row_data_set) {
+        foreach($row_data as $column_key => $column_value) {
+          if(!isset($table_data[$row_index][$column_key])){
+            $table_data[$row_index][$column_key] = "";
+          }
+        }
+
+        foreach($row_data_set as $column_key => $column_value) {
+          if(!in_array($column_key, $columns)) array_push($columns, $column_key);
+        }
+      }
+
+      foreach($columns as $column) {
+        if(!isset($row_data[$column])) $row_data[$column] = "";
+      }
+    }
 
     array_push($table_data, $row_data);
 
@@ -157,77 +231,79 @@ class CYZ_JDB extends cyz_jdb_base {
 
   //////// FILE OPERATION ROW
 
-  function add_column($table_name, $index, $row_key, $data){
+  function add_column($table_name, $column_key){
+    $table_name = $this->validate_name($table_name);
 
-  }
+    if(empty($table_name)) return false;
 
-  function update_column($table_name, $index, $row_key, $data){
+    $table_data = parent::read_table($table_name);
 
-  }
+    if(empty($table_data)) return false;
 
-  function get_column($table_name, $index, $row_key){
-
-  }
-
-  function delete_column($table_name, $index, $row_key){
-
-  }
-
-  //////// FILE MICRO OPERATIONS
-
-  function mdb_open_connection(){
-
-  }
-
-  function mdb_update_table($table_name, $data = null){
-    return parent::update_table($table_name, $data);
-  }
-
-  function mdb_read_table($table_name){
-    return parent::read_table($table_name);
-  }
-
-  function mdb_add_row(){
-
-  }
-
-  function mbd_update_row($table_name, $index, $row){
-    if(0 <= $this->validate_index($index)){
-      return parent::delete_table($table_name);
+    foreach ($table_data as $row_index => $row_data_set) {
+      $table_data[$row_index][$column_key] = "";
     }
-    
+
+    if(parent::update_table($table_name, $table_data)) return true;
+
     return false;
   }
 
-  function mdb_read_row($table_name, $index){
+  function update_column_data($table_name, $index, $column_key, $column_data){
+    $table_name = $this->validate_name($table_name);
 
+    if(empty($table_name)) return false;
+
+    $table_data = parent::read_table($table_name);
+
+    if(empty($table_data)) return false;
+
+    foreach ($table_data as $row_index => $row_data_set) {
+      if($index == $row_index){
+        $table_data[$row_index][$column_key] = $column_data;
+      }
+    }
+
+    if(parent::update_table($table_name, $table_data)) return true;
+
+    return false;
   }
 
-  function mdb_delete_row(){
+  function get_column_data($table_name, $index, $column_key){
+    $table_name = $this->validate_name($table_name);
 
+    if(empty($table_name)) return false;
+
+    $table_data = parent::read_table($table_name);
+
+    if(empty($table_data)) return false;
+
+    foreach ($table_data as $row_index => $row_data_set) {
+      if($index == $row_index){
+        return $row_data_set[$column_key];
+      }
+    }
+
+    return false;
   }
 
-  function mdb_add_data_to_set($table_name, $index, $row_key, $data){
+  function delete_column($table_name, $column_key){
+    $table_name = $this->validate_name($table_name);
 
-  }
+    if(empty($table_name)) return true;
 
-  function mdb_read_data_of_set($table_name, $index, $row_key){
+    $table_data = parent::read_table($table_name);
 
-  }
+    if(empty($table_data)) return true;
 
-  function mdb_update_data_of_set($table_name, $index, $row_key, $data){
+    foreach ($table_data as $row_index => $row_data_set) {
+      unset($row_data_set[$column_key]);
 
-  }
+      $table_data[$row_index] = $row_data_set;
+    }
 
-  function mdb_delete_data_of_set($table_name, $index, $row_key){
+    if(parent::update_table($table_name, $table_data)) return true;
 
-  }
-
-  function mdb_search_data($table_name, $query){
-
-  }
-
-  function mdb_close_connection(){
-
+    return false;
   }
 }
